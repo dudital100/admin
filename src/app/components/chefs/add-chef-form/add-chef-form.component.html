@@ -1,0 +1,51 @@
+<div>
+  <mat-card>
+    <div class="add-content">
+      <mat-card-content>
+        <h2 class="my-form">Add Chef</h2>
+        <form class="my-form" [formGroup]="addChefForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width">
+            <mat-label>Chef's Name</mat-label>
+            <input
+              class="full-width"
+              type="name"
+              matInput
+              placeholder="Enter Chef's Name"
+              name="name"
+              formControlName="name"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Image</mat-label>
+            <input
+              class="full-width"
+              type="text"
+              matInput
+              placeholder="Image Url"
+              name="imgUrl"
+              formControlName="imgUrl"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width chef-info">
+            <mat-label>Chef's Info</mat-label>
+            <textarea
+              class="full-width chef-info"
+              type="textarea"
+              matInput
+              placeholder="Info"
+              name="info"
+              formControlName="info"
+              required
+            ></textarea>
+          </mat-form-field>
+          <mat-card-actions>
+            <button type="submit" mat-raised-button>Add Chef</button>
+          </mat-card-actions>
+          <button type="button" mat-button (click)="hideForm()">Close Form</button>
+        </form>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>

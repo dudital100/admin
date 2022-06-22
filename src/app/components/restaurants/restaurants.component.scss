@@ -1,0 +1,26 @@
+.table-img {
+  width: 60px;
+  height: 60px;
+  display: block;
+  margin: 0px auto;
+}
+.w-75 {
+  text-align: center;
+  width: 50px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.w-100 {
+  text-align: center;
+  width: 100px;
+  margin: auto;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.add-btn {
+    display: block;
+    margin: 20px auto;
+    background-color: rgb(255, 243, 219);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}

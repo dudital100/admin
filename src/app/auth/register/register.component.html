@@ -1,0 +1,52 @@
+<div>
+  <mat-card>
+    <div class="register-content">
+      <mat-card-content>
+        <div class="my-form">Register</div>
+        <form class="my-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width">
+            <mat-label>Full Name</mat-label>
+            <input
+              type="text"
+              class="full-width"
+              matInput
+              placeholder="Name"
+              name="name"
+              required
+              formControlName="name"
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input
+              type="email"
+              class="full-width"
+              formControlName="email"
+              matInput
+              placeholder="Email"
+              name="email"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input
+              class="full-width"
+              type="password"
+              matInput
+              placeholder="Password"
+              name="password"
+              formControlName="password"
+              required
+            />
+          </mat-form-field>
+          <mat-card-actions>
+            <button type="submit" mat-raised-button>Register</button>
+          </mat-card-actions>
+        </form>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>
+
+<!-- (click)="register()" -->

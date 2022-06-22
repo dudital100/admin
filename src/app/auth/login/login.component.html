@@ -1,0 +1,42 @@
+<div>
+  <mat-card>
+    <div class="login-content">
+      <mat-card-content>
+        <div class="my-form">Login</div>
+        <form class="my-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input
+              class="full-width"
+              type="email"
+              matInput
+              placeholder="Email"
+              name="email"
+              formControlName="email"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input
+              class="full-width"
+              type="password"
+              matInput
+              placeholder="Password"
+              name="password"
+              formControlName="password"
+              required
+            />
+          </mat-form-field>
+          <mat-card-actions>
+            <button type="submit" mat-raised-button>
+              Login
+            </button>
+          </mat-card-actions>
+        </form>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>
+
+<!-- (click)="register()" -->

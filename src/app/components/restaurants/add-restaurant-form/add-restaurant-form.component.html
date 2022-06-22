@@ -1,0 +1,92 @@
+<div>
+    <mat-card>
+      <div class="add-content">
+        <mat-card-content>
+          <h2 class="my-form">Add Restaurant</h2>
+          <form class="my-form" [formGroup]="addRestForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="full-width">
+              <mat-label>Restaurant Name</mat-label>
+              <input
+                class="full-width"
+                type="name"
+                matInput
+                placeholder="Enter Restaurant Name"
+                name="name"
+                formControlName="name"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Image</mat-label>
+              <input
+                class="full-width"
+                type="text"
+                matInput
+                placeholder="Image Url"
+                name="img"
+                formControlName="img"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Chef</mat-label>
+              <mat-select [(value)]="selectedValue" name="chef" formControlName="chef" >
+                <mat-option *ngFor="let chef of chefs" [value]="chef._id">
+                  {{chef.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-radio-group
+              formControlName="isNewRest"
+              name="isNewRest"
+              class="full-width"
+              aria-label="New"
+              matInput
+              required
+              value="true"
+            >
+              <mat-label>New</mat-label>
+              <br />
+              <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
+              <mat-radio-button value="{{ false }}">No</mat-radio-button>
+            </mat-radio-group>
+            <br />
+            <mat-radio-group
+              formControlName="isOpen"
+              name="isOpen"
+              class="full-width"
+              aria-label="Open"
+              matInput
+              required
+            >
+              <mat-label>Open</mat-label>
+              <br />
+              <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
+              <mat-radio-button value="{{ false }}">No</mat-radio-button>
+            </mat-radio-group>
+            <br />
+            <mat-radio-group
+              formControlName="isPopular"
+              name="isPopular"
+              class="full-width"
+              aria-label="Popular"
+              matInput
+              required
+            >
+              <mat-label>Popular</mat-label>
+              <br />
+              <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
+              <mat-radio-button value="{{ false }}">No</mat-radio-button>
+            </mat-radio-group>
+            <mat-card-actions>
+              <button type="submit" mat-raised-button>Add Restaurant</button>
+            </mat-card-actions>
+            <button type="button" mat-button (click)="hideForm()">
+              Close Form
+            </button>
+          </form>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>

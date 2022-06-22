@@ -1,0 +1,93 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="name">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Name</th>
+    <td class="w-100" mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="img">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Image</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      <img class="table-img" src="{{ element.img }}" />
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="chef">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Chef</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      {{ element.chef.name }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="signatureDish">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Signature dish</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      {{ element.signatureDish.name }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="isNewRest">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>New</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      <mat-icon>{{
+        element.isNewRest ? "check_circle_outline" : "remove_circle_outline"
+      }}</mat-icon>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="isPopular">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Popular</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      <mat-icon>{{
+        element.isPopular ? "check_circle_outline" : "remove_circle_outline"
+      }}</mat-icon>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="isOpen">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Open</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      <mat-icon>{{
+        element.isOpen ? "check_circle_outline" : "remove_circle_outline"
+      }}</mat-icon>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Actions</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      <mat-icon
+        style="margin-right: 5px; cursor: pointer"
+        (click)="updateRest(element)"
+        >edit</mat-icon
+      >
+      <mat-icon style="cursor: pointer" (click)="deleteRestById(element._id)"
+        >delete</mat-icon
+      >
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<app-add-restaurant-form
+  *ngIf="showAddModal"
+  [showForm]="showAddModal"
+  [chefs]="chefs"
+  (hideFormEvent)="closeAddForm()"
+  (fetchData)="fetchAllRestaurants()"
+></app-add-restaurant-form>
+<app-update-restaurant-form
+  *ngIf="showUpdateModal"
+  [restToUpdate]="restToUpdate"
+  [chefs]="chefs"
+  [showUpdateForm]="showUpdateModal"
+  (hideFormEvent)="closeUpdateForm()"
+  (fetchData)="fetchAllRestaurants()"
+></app-update-restaurant-form>
+
+<button
+  *ngIf="!showAddModal && !showUpdateModal"
+  class="add-btn"
+  mat-button
+  (click)="openAddForm()"
+>
+  Add Restaurant
+</button>

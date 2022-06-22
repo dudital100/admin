@@ -1,0 +1,117 @@
+<div>
+  <mat-card>
+    <div class="add-content">
+      <mat-card-content>
+        <h2 class="my-form">Add Dish</h2>
+        <form class="my-form" [formGroup]="addDishForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width">
+            <mat-label>Dish Name</mat-label>
+            <input
+              class="full-width"
+              type="name"
+              matInput
+              placeholder="Enter Dish Name"
+              name="name"
+              formControlName="name"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Image</mat-label>
+            <input
+              class="full-width"
+              type="text"
+              matInput
+              placeholder="Image Url"
+              name="img"
+              formControlName="img"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width dish-info">
+            <mat-label>Description</mat-label>
+            <input
+              class="full-width dish-info"
+              type="text"
+              matInput
+              placeholder="description"
+              name="description"
+              formControlName="description"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Restaurant</mat-label>
+            <mat-select [(value)]="selectedValue" name="restaurantRef" formControlName="restaurantRef" >
+              <mat-option *ngFor="let rest of restaurants" [value]="rest._id">
+                {{rest.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-radio-group
+            formControlName="isSpicy"
+            name="isSpicy"
+            class="full-width"
+            aria-label="Spicy"
+            matInput
+            required
+            value="true"
+          >
+            <mat-label>Spicy</mat-label>
+            <br />
+            <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
+            <mat-radio-button value="{{ false }}">No</mat-radio-button>
+          </mat-radio-group>
+          <br />
+          <mat-radio-group
+            formControlName="isVegi"
+            name="isVegi"
+            class="full-width"
+            aria-label="Vegiterian"
+            matInput
+            required
+          >
+            <mat-label>Vegiterian</mat-label>
+            <br />
+            <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
+            <mat-radio-button value="{{ false }}">No</mat-radio-button>
+          </mat-radio-group>
+          <br />
+          <mat-radio-group
+            formControlName="isVegan"
+            name="isVegan"
+            class="full-width"
+            aria-label="Vegan"
+            matInput
+            required
+          >
+            <mat-label>Vegan</mat-label>
+            <br />
+            <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
+            <mat-radio-button value="{{ false }}">No</mat-radio-button>
+          </mat-radio-group>
+          <br />
+          <mat-form-field class="full-width dish-info">
+            <mat-label>Price</mat-label>
+            <input
+              class="full-width dish-info"
+              type="number"
+              matInput
+              placeholder="price"
+              name="price"
+              formControlName="price"
+              required
+            />
+          </mat-form-field>
+          <mat-card-actions>
+            <button type="submit" mat-raised-button>Add Dish</button>
+          </mat-card-actions>
+          <button type="button" mat-button (click)="hideForm()">
+            Close Form
+          </button>
+        </form>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>

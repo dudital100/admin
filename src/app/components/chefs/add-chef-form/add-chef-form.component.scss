@@ -1,0 +1,23 @@
+.add-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .my-form {
+    min-width: 150px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .full-width {
+      width: 100%;
+  }
+  button {
+    background-color: wheat;
+  }
+  .chef-info {
+      width: 300px;
+  }

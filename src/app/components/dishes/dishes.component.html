@@ -1,0 +1,97 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="img">
+    <th class="w-75" mat-header-cell *matHeaderCellDef>Image</th>
+    <td class="w-75" mat-cell *matCellDef="let element">
+      <img class="table-img" src="{{ element.img }}" />
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Name</th>
+    <td class="w-100" mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="description">
+    <th class="w-300" mat-header-cell *matHeaderCellDef>Description</th>
+    <td class="w-300" mat-cell *matCellDef="let element">
+      {{ element.description }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="restaurantRef">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Restaurant</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      {{ element.restaurantRef.name }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="isSpicy">
+    <th class="w-75" mat-header-cell *matHeaderCellDef>Spicy</th>
+    <td class="w-75" mat-cell *matCellDef="let element">
+      <mat-icon>{{
+        element.isSpicy ? "check_circle_outline" : "remove_circle_outline"
+      }}</mat-icon>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="isVegan">
+    <th class="w-75" mat-header-cell *matHeaderCellDef>Vegan</th>
+    <td class="w-75" mat-cell *matCellDef="let element">
+      <mat-icon>{{
+        element.isVegan ? "check_circle_outline" : "remove_circle_outline"
+      }}</mat-icon>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="isVegi">
+    <th class="w-75" mat-header-cell *matHeaderCellDef>Vegiterian</th>
+    <td class="w-75" mat-cell *matCellDef="let element">
+      <mat-icon>{{
+        element.isVegi ? "check_circle_outline" : "remove_circle_outline"
+      }}</mat-icon>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="price">
+    <th class="w-75" mat-header-cell *matHeaderCellDef>Price</th>
+    <td class="w-75" mat-cell *matCellDef="let element">{{ element.price }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Actions</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      <mat-icon style="margin-right: 5px; cursor: pointer" (click)="updateDish(element)"
+      >edit</mat-icon>
+      <mat-icon style="cursor: pointer" (click)="deleteDishById(element._id)"
+        >delete</mat-icon
+      >
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<!-- 
+<app-add-dish-form *ngIf="showAddModal"></app-add-dish-form>
+<app-update-dish-form *ngIf="showUpdateModal"></app-update-dish-form> -->
+<app-add-dish-form
+  *ngIf="showAddModal"
+  [showForm]="showAddModal"
+  [restaurants]="rests"
+  (hideFormEvent)="closeAddForm()"
+  (fetchData)="fetchAllDishes()"
+></app-add-dish-form>
+<app-update-dish-form
+  *ngIf="showUpdateModal"
+  [dishToUpdate]="dishToUpdate"
+  [showUpdateForm]="showUpdateModal"
+  [restaurants]="rests"
+  (hideFormEvent)="closeUpdateForm()"
+  (fetchData)="fetchAllDishes()"
+></app-update-dish-form>
+<button
+  *ngIf="!showAddModal && !showUpdateModal"
+  class="add-btn"
+  mat-button
+  (click)="openAddForm()"
+>
+  Add Dish
+</button>

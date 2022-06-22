@@ -1,0 +1,10 @@
+<app-header></app-header>
+<!-- <app-aside *ngIf="isLoggedIn"></app-aside>
+<router-outlet></router-outlet> -->
+
+<div class="landing-container">
+    <app-aside *ngIf="isLogged()"></app-aside>
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

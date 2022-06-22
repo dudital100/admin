@@ -1,0 +1,61 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="imgUrl">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Image</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      <img class="table-img" src="{{ element.imgUrl }}" />
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Name</th>
+    <td class="w-100" mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="info">
+    <th class="w-600" mat-header-cell *matHeaderCellDef>Info</th>
+    <td class="w-600" mat-cell *matCellDef="let element">{{ element.info }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Actions</th>
+    <td class="w-100" mat-cell *matCellDef="let element">
+      <mat-icon
+        style="margin-right: 5px; cursor: pointer"
+        (click)="updateChef(element)"
+        >edit</mat-icon
+      >
+      <mat-icon style="cursor: pointer" (click)="deleteChefById(element._id)"
+        >delete</mat-icon
+      >
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<app-add-chef-form
+  *ngIf="showAddModal"
+  [showForm]="showAddModal"
+  (hideFormEvent)="closeAddForm()"
+  (fetchData)="fetchAllChefs()"
+></app-add-chef-form>
+<app-update-chef-form
+  *ngIf="showUpdateModal"
+  [chefToUpdate]="chefToUpdate"
+  [showUpdateForm]="showUpdateModal"
+  (hideFormEvent)="closeUpdateForm()"
+  (fetchData)="fetchAllChefs()"
+></app-update-chef-form>
+<button
+  *ngIf="!showAddModal && !showUpdateModal"
+  class="add-btn"
+  mat-button
+  (click)="openAddForm()"
+>
+  Add Chef
+</button>
+
+
