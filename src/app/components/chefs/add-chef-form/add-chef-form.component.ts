@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChefService} from '../../../services/chef.service';
 import { ChefInterface } from 'src/app/interfaces/chef-interface';
+import { HotToastService } from '@ngneat/hot-toast';
+
 
 @Component({
   selector: 'app-add-chef-form',
@@ -19,7 +21,7 @@ export class AddChefFormComponent implements OnInit {
   @Output() hideFormEvent = new EventEmitter<boolean>();
   @Output() fetchData = new EventEmitter();
 
-  constructor(private chefService: ChefService) { }
+  constructor(private chefService: ChefService, private toast: HotToastService) { }
 
   ngOnInit(): void {
   }
@@ -29,11 +31,20 @@ export class AddChefFormComponent implements OnInit {
       const newChef: ChefInterface = {
         ...this.addChefForm.value
       }
-      this.chefService.addChef(newChef).subscribe((res) => {        
+      this.chefService.addChef(newChef).subscribe((res: any) => {     
+        console.log(res);
+        if (res.name) {
+          this.toast.success(`${res.name} Added!`);
+        } else {
+          this.toast.error("Could't Add Chef");
+        }
+
         this.hideForm();
         this.fetchData.emit();
       })
       
+    } else {
+      this.toast.error("Invalid form!");
     }
   }
 

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DishInterface } from 'src/app/interfaces/dish-interface';
 import { RestaurantInterface } from 'src/app/interfaces/restaurant-interface';
 import { DishService } from '../../../services/dish.service';
-import { RestaurantsService } from '../../../services/restaurants.service';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-add-dish-form',
@@ -27,8 +27,10 @@ export class AddDishFormComponent implements OnInit {
   @Input() restaurants: RestaurantInterface[] = [];
   @Output() hideFormEvent = new EventEmitter<boolean>();
   @Output() fetchData = new EventEmitter();
-  constructor(private dishService: DishService , private restService: RestaurantsService) {
-  }
+  constructor(
+    private dishService: DishService,
+    private toast: HotToastService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -37,10 +39,15 @@ export class AddDishFormComponent implements OnInit {
       const newDish: DishInterface = {
         ...this.addDishForm.value,
       };
-      this.dishService.addDish(newDish).subscribe(res => {
+      this.dishService.addDish(newDish).subscribe((res: any) => {
+        if (res.name) {
+          this.toast.success(`${res.name} Added!`);
+        }
         this.hideForm();
         this.fetchData.emit();
       });
+    } else {
+      this.toast.error("Invalid form!");
     }
   }
   hideForm() {

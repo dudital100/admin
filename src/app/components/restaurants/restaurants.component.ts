@@ -1,9 +1,10 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { RestaurantInterface } from 'src/app/interfaces/restaurant-interface';
+import { HotToastService } from '@ngneat/hot-toast';
+
 // import { MatTableDataSource } from '@angular/material/table';
 // import {MatSort, Sort} from '@angular/material/sort';
-import { DeleteRestaurant } from '../../interfaces/delete-restaurant';
 import { ChefInterface } from 'src/app/interfaces/chef-interface';
 import { ChefService } from 'src/app/services/chef.service';
 // import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -40,10 +41,13 @@ export class RestaurantsComponent implements OnInit, OnChanges {
   chefs: ChefInterface[] = [];
 
   // constructor(private restaurantService: RestaurantsService , public dialog: MatDialog) {
-  constructor(private restaurantService: RestaurantsService, private chefsService: ChefService) {
+  constructor(
+    private restaurantService: RestaurantsService,
+    private chefsService: ChefService,
+    private toast: HotToastService
+  ) {
     this.fetchAllRestaurants();
     this.fetchAllChefs();
-
   }
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {
@@ -83,17 +87,26 @@ export class RestaurantsComponent implements OnInit, OnChanges {
   }
 
   deleteRestById(id: string) {
-    console.log(id);
-    this.restaurantService
-      .deleteById(id)
-      .subscribe((rest: DeleteRestaurant) => {
-        // in order to show the admin if the restaurant has been deleted, and how many dishes were connected to that restaurant.
-        // console.log(rest.dishesDelete.deletedCount);
-        // console.log(rest.restDelete.deletedCount);
+    this.restaurantService.deleteById(id).subscribe((res: any) => {
+      // in order to show the admin if the restaurant has been deleted, and how many dishes were connected to that restaurant.
+      // console.log(rest.dishesDelete.deletedCount);
+      // console.log(rest.restDelete.deletedCount);
+      console.log(res);
+      
+      if (res.message) {
+        this.toast.error(res.message);
+      }
+      else {
+        if (res.dishesDelete.modifiedCount)
+          this.toast.success(`${res.restDelete.name} and it's ${res.dishesDelete.modifiedCount} ${res.dishesDelete.modifiedCount === 1 ? "dish" : "dishes" } have been deleted successfully`);
+        else {
+          this.toast.success(`${res.restDelete.name} has been deleted successfully`);
+        }
+      }
 
-        // should i update the current array avaiable in the component?
-        this.fetchAllRestaurants(); // fetch the new rests again
-      });
+      // should i update the current array avaiable in the component?
+      this.fetchAllRestaurants(); // fetch the new rests again
+    });
   }
 
   updateRest(updatedRest: RestaurantInterface) {

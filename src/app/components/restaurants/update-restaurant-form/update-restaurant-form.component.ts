@@ -1,10 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChefInterface } from 'src/app/interfaces/chef-interface';
 import { DishInterface } from 'src/app/interfaces/dish-interface';
 import { DishService } from 'src/app/services/dish.service';
 import { RestaurantInterface } from '../../../interfaces/restaurant-interface';
 import { RestaurantsService } from '../../../services/restaurants.service';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-update-restaurant-form',
@@ -22,7 +31,7 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
     isPopular: new FormControl('', [Validators.required]),
     signatureDish: new FormControl('', [Validators.required]),
   });
-  restaurantDishes: DishInterface[] = []
+  restaurantDishes: DishInterface[] = [];
 
   @Input() showUpdateForm: boolean = false;
   @Input() restToUpdate: RestaurantInterface = {
@@ -39,8 +48,11 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
   @Output() hideFormEvent = new EventEmitter<boolean>();
   @Output() fetchData = new EventEmitter();
 
-  constructor(private restService: RestaurantsService, private dishService: DishService) {
-  }
+  constructor(
+    private restService: RestaurantsService,
+    private dishService: DishService,
+    private toast: HotToastService
+  ) {}
   ngOnChanges(changes: SimpleChanges): void {
     // this.fetchCurrentResDishes();
   }
@@ -48,11 +60,11 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
   fetchCurrentResDishes() {
     const filter = {
       filter: {
-        restaurantRef: this.restToUpdate._id
-      }
-    }    
+        restaurantRef: this.restToUpdate._id,
+      },
+    };
     this.dishService.getfilteredDishes(filter).subscribe((dishes) => {
-      this.restaurantDishes = dishes;      
+      this.restaurantDishes = dishes;
     });
   }
 
@@ -67,7 +79,6 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
       signatureDish: this.restToUpdate.signatureDish._id,
     });
     this.fetchCurrentResDishes();
-
   }
   hideForm() {
     this.hideFormEvent.emit();
@@ -77,11 +88,17 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
     if (this.updateRestForm.valid) {
       const updatedDishDetails: RestaurantInterface = this.updateRestForm.value;
       const updatedDishId = this.restToUpdate._id;
-      this.restService.updateRestaurant(updatedDishDetails, updatedDishId).subscribe( res => {
-        console.log(res);
-        this.hideForm();
-        this.fetchData.emit();
-      });
+      this.restService
+        .updateRestaurant(updatedDishDetails, updatedDishId)
+        .subscribe((res: any) => {
+          if (res.name) {
+            this.toast.success(`${res.name} Updated!`);
+          }
+          this.hideForm();
+          this.fetchData.emit();
+        });
+    } else {
+      this.toast.error("Invalid form!");
     }
   }
 }

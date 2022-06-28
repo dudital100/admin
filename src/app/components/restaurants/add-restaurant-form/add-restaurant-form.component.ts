@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChefInterface } from 'src/app/interfaces/chef-interface';
 import { RestaurantInterface } from 'src/app/interfaces/restaurant-interface';
 import { RestaurantsService } from '../../../services/restaurants.service';
+import { HotToastService } from '@ngneat/hot-toast';
+
 
 @Component({
   selector: 'app-add-restaurant-form',
@@ -27,7 +29,7 @@ export class AddRestaurantFormComponent implements OnInit {
   @Output() hideFormEvent = new EventEmitter<boolean>(); 
   @Output() fetchData = new EventEmitter();
 
-  constructor(private restService :RestaurantsService) { 
+  constructor(private restService :RestaurantsService, private toast: HotToastService) { 
     
   }
 
@@ -37,11 +39,16 @@ export class AddRestaurantFormComponent implements OnInit {
   onSubmit() {
     if(this.addRestForm.valid) {
       const newRest: RestaurantInterface = this.addRestForm.value;
-      this.restService.addRestaurant(newRest).subscribe( res => {
+      this.restService.addRestaurant(newRest).subscribe( (res: any) => {
+        if (res.name) {
+          this.toast.success(`${res.name} Added!`);
+        }
         console.log(res);        
         this.hideForm();
         this.fetchData.emit();
       });
+    } else {
+      this.toast.error("Invalid form!")
     }
 }
 hideForm() {

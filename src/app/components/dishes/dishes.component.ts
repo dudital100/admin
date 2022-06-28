@@ -1,15 +1,14 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DishService } from 'src/app/services/dish.service';
 import { DishInterface } from 'src/app/interfaces/dish-interface';
-import { DeleteResponse } from '../../interfaces/delete-response';
 import { RestaurantInterface } from 'src/app/interfaces/restaurant-interface';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
-
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-dishes',
   templateUrl: './dishes.component.html',
-  styleUrls: ['./dishes.component.scss']
+  styleUrls: ['./dishes.component.scss'],
 })
 export class DishesComponent implements OnInit, OnChanges {
   showAddModal: boolean = false;
@@ -17,28 +16,38 @@ export class DishesComponent implements OnInit, OnChanges {
   dishToUpdate: DishInterface = {
     _id: '',
     name: '',
-    img:'',
+    img: '',
     description: '',
     price: 0,
-    isSpicy: false, 
-    isVegan: false, 
+    isSpicy: false,
+    isVegan: false,
     isVegi: false,
-    restaurantRef: ''
-  }
+    restaurantRef: '',
+  };
   displayedColumns: string[] = [
-    'img', 'name', 'description','restaurantRef','isSpicy','isVegi','isVegan','price', 'actions'
+    'img',
+    'name',
+    'description',
+    'restaurantRef',
+    'isSpicy',
+    'isVegi',
+    'isVegan',
+    'price',
+    'actions',
   ];
   dataSource: DishInterface[] = [];
   rests: RestaurantInterface[] = [];
 
-  constructor(private dishtService: DishService, private restService: RestaurantsService) {
+  constructor(
+    private dishtService: DishService,
+    private restService: RestaurantsService,
+    private toast: HotToastService
+  ) {
     this.fetchAllDishes();
     this.fetchRestaurants();
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {
     this.fetchAllDishes();
     this.fetchRestaurants();
@@ -49,7 +58,7 @@ export class DishesComponent implements OnInit, OnChanges {
     this.showAddModal = true;
   }
 
-  closeAddForm(): void{
+  closeAddForm(): void {
     this.showAddModal = false;
   }
   openUpdateForm(): void {
@@ -57,7 +66,7 @@ export class DishesComponent implements OnInit, OnChanges {
     this.showUpdateModal = true;
   }
 
-  closeUpdateForm(): void{
+  closeUpdateForm(): void {
     this.showUpdateModal = false;
   }
 
@@ -76,23 +85,20 @@ export class DishesComponent implements OnInit, OnChanges {
   }
 
   deleteDishById(id: string) {
-    console.log(id);
-    this.dishtService.deleteById(id).subscribe((response:DeleteResponse) => {
-      console.log(response);
-      this.fetchAllDishes(); // fetch the new dishes again 
-    })
-    ;
+    this.dishtService.deleteById(id).subscribe((response: any) => {
+      if(response.name){
+        this.toast.success(`${response.name} Deleted!!`);
+      }
+      this.fetchAllDishes(); // fetch the new dishes again
+    });
   }
 
   updateDish(updatedDish: DishInterface) {
     // console.log(updatedDish);
-    // console.log(typeof updatedDish.isSpicy) 
+    // console.log(typeof updatedDish.isSpicy)
     this.dishToUpdate = updatedDish;
     // console.log(this.dishToUpdate);
     this.showAddModal = false;
     this.showUpdateModal = true;
   }
-
 }
-
-

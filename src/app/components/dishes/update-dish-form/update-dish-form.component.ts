@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RestaurantInterface } from 'src/app/interfaces/restaurant-interface';
 import { DishInterface } from '../../../interfaces/dish-interface';
 import { DishService } from '../../../services/dish.service';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-update-dish-form',
@@ -35,11 +36,14 @@ export class UpdateDishFormComponent implements OnInit {
     restaurantRef: '',
   };
   @Input() restaurants: RestaurantInterface[] = [];
-  
+
   @Output() hideFormEvent = new EventEmitter<boolean>();
   @Output() fetchData = new EventEmitter();
 
-  constructor(private dishService: DishService) {}
+  constructor(
+    private dishService: DishService,
+    private toast: HotToastService
+  ) {}
 
   ngOnInit(): void {
     // console.log( this.dishToUpdate.restaurantRef)
@@ -59,16 +63,24 @@ export class UpdateDishFormComponent implements OnInit {
   hideForm() {
     this.hideFormEvent.emit();
   }
-  
+
   onSubmit() {
     if (this.updateDishForm.valid) {
       const updatedDishDetails: DishInterface = this.updateDishForm.value;
       const updatedDishId = this.dishToUpdate._id;
-      this.dishService.updateDish(updatedDishDetails, updatedDishId).subscribe(res => {
-        console.log(res);        
-        this.hideForm();
-        this.fetchData.emit();
-      });
+      this.dishService
+        .updateDish(updatedDishDetails, updatedDishId)
+        .subscribe((res: any) => {
+          if (res.name) {
+            this.toast.success(`${res.name} Updated!`)
+          } else {
+            this.toast.error(`Error updating dish`)
+          }
+          this.hideForm();
+          this.fetchData.emit();
+        });
+    } else {
+      this.toast.error(`Invalid Form!`)
     }
   }
 }
