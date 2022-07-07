@@ -11,15 +11,18 @@ import { HotToastService } from '@ngneat/hot-toast';
   styleUrls: ['./add-dish-form.component.scss'],
 })
 export class AddDishFormComponent implements OnInit {
-  selectedValue: string = '';
+  selectedRestValue: string = '';
+  selectedTypeValue: string = '';
+
   addDishForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     img: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    isSpicy: new FormControl('', [Validators.required]),
-    isVegi: new FormControl('', [Validators.required]),
-    isVegan: new FormControl('', [Validators.required]),
+    isSpicy: new FormControl(false, [Validators.required]),
+    isVegi: new FormControl(false, [Validators.required]),
+    isVegan: new FormControl(false, [Validators.required]),
     price: new FormControl(0, [Validators.required]),
+    mealType: new FormControl('', [Validators.required]),
     restaurantRef: new FormControl('', [Validators.required]),
   });
 
@@ -39,6 +42,8 @@ export class AddDishFormComponent implements OnInit {
       const newDish: DishInterface = {
         ...this.addDishForm.value,
       };
+      console.log(newDish);
+      
       this.dishService.addDish(newDish).subscribe((res: any) => {
         if (res.name) {
           this.toast.success(`${res.name} Added!`);

@@ -8,6 +8,7 @@ export interface RestaurantInterface {
   isOpen: boolean;
   isPopular: boolean;
   isNewRest: boolean;
+  // isValid: boolean;
   chef: any;
   signatureDish: any;
 }

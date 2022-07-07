@@ -11,7 +11,9 @@ import { HotToastService } from '@ngneat/hot-toast';
   styleUrls: ['./update-dish-form.component.scss'],
 })
 export class UpdateDishFormComponent implements OnInit {
-  selectedValue: string = '';
+  selectedRestValue: string = '';
+  selectedTypeValue: string = '';
+
   updateDishForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     img: new FormControl('', [Validators.required]),
@@ -20,6 +22,7 @@ export class UpdateDishFormComponent implements OnInit {
     isVegi: new FormControl('', [Validators.required]),
     isVegan: new FormControl('', [Validators.required]),
     price: new FormControl(0, [Validators.required]),
+    mealType: new FormControl('', [Validators.required]),
     restaurantRef: new FormControl('', [Validators.required]),
   });
 
@@ -32,7 +35,9 @@ export class UpdateDishFormComponent implements OnInit {
     isSpicy: false,
     isVegi: false,
     isVegan: false,
+    isValid: false,
     price: 0,
+    mealType: '',
     restaurantRef: '',
   };
   @Input() restaurants: RestaurantInterface[] = [];
@@ -55,6 +60,7 @@ export class UpdateDishFormComponent implements OnInit {
       isVegi: this.dishToUpdate.isVegi,
       isVegan: this.dishToUpdate.isVegan,
       price: this.dishToUpdate.price,
+      mealType: this.dishToUpdate.mealType,
       restaurantRef: this.dishToUpdate.restaurantRef._id,
     });
     // this.selectedValue = this.dishToUpdate.restaurantRef.name;

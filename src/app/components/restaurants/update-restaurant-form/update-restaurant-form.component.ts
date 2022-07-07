@@ -21,7 +21,9 @@ import { HotToastService } from '@ngneat/hot-toast';
   styleUrls: ['./update-restaurant-form.component.scss'],
 })
 export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
-  selectedValue: string = '';
+  selectedChefValue: string = '';
+  selectedDishValue: string = '';
+
   updateRestForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     img: new FormControl('', [Validators.required]),
@@ -65,10 +67,16 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
     };
     this.dishService.getfilteredDishes(filter).subscribe((dishes) => {
       this.restaurantDishes = dishes;
+      if (!dishes.length) {
+        this.toast.warning("This restaurant does not have dishes yet, Please add dishes first")
+      }
     });
+
   }
 
   ngOnInit(): void {
+    // console.log(this.restToUpdate.signatureDish.isValid);
+    
     this.updateRestForm.setValue({
       name: this.restToUpdate.name,
       img: this.restToUpdate.img,
@@ -76,9 +84,13 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
       isNewRest: this.restToUpdate.isNewRest,
       isOpen: this.restToUpdate.isOpen,
       isPopular: this.restToUpdate.isPopular,
-      signatureDish: this.restToUpdate.signatureDish._id,
+      // signatureDish: this.restToUpdate.signatureDish.isvalid ? this.restToUpdate.signatureDish._id : "",
+      signatureDish: this.restToUpdate.signatureDish ? this.restToUpdate.signatureDish._id : null,
+
     });
     this.fetchCurrentResDishes();
+    // console.log("init: " + this.restToUpdate.signatureDish._id);
+    
   }
   hideForm() {
     this.hideFormEvent.emit();
@@ -88,6 +100,10 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
     if (this.updateRestForm.valid) {
       const updatedDishDetails: RestaurantInterface = this.updateRestForm.value;
       const updatedDishId = this.restToUpdate._id;
+      console.log(updatedDishDetails);
+      console.log(updatedDishId);
+      
+      
       this.restService
         .updateRestaurant(updatedDishDetails, updatedDishId)
         .subscribe((res: any) => {

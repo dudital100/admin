@@ -7,7 +7,7 @@ export class AuthCheckService {
 
   constructor() { }
   isLoggedIn(): boolean {
-    if(localStorage.getItem('email'))
+    if(localStorage.getItem('token'))
       return true
     else return false
   }

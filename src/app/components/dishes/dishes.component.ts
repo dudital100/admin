@@ -22,11 +22,14 @@ export class DishesComponent implements OnInit, OnChanges {
     isSpicy: false,
     isVegan: false,
     isVegi: false,
+    isValid: false,
+    mealType: '',
     restaurantRef: '',
   };
   displayedColumns: string[] = [
     'img',
     'name',
+    'mealType',
     'description',
     'restaurantRef',
     'isSpicy',

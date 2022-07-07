@@ -6,7 +6,6 @@ import {HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
 import { RestaurantsComponent } from './components/restaurants/restaurants.component';
 import { DishesComponent } from './components/dishes/dishes.component';
 import { ChefsComponent } from './components/chefs/chefs.component';
@@ -38,14 +37,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { TokenService } from './services/token.service';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HotToastModule } from '@ngneat/hot-toast';
+import { MonthlyChefComponent } from './components/monthly-chef/monthly-chef.component';
+import { UpdateMonthlyChefComponent } from './components/monthly-chef/update-monthly-chef/update-monthly-chef.component';
 
-// import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,
     RestaurantsComponent,
     DishesComponent,
     ChefsComponent,
@@ -58,6 +57,8 @@ import { HotToastModule } from '@ngneat/hot-toast';
     UpdateDishFormComponent,
     UpdateChefFormComponent,
     AddChefFormComponent,
+    MonthlyChefComponent,
+    UpdateMonthlyChefComponent,
   ],
   imports: [
     BrowserModule,

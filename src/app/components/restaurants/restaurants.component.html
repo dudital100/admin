@@ -22,7 +22,7 @@
   <ng-container matColumnDef="signatureDish">
     <th class="w-100" mat-header-cell *matHeaderCellDef>Signature dish</th>
     <td class="w-100" mat-cell *matCellDef="let element">
-      {{ element.signatureDish.name }}
+      {{ element.signatureDish && element.signatureDish.isValid ? element.signatureDish.name : "" }}
     </td>
   </ng-container>
   <ng-container matColumnDef="isNewRest">

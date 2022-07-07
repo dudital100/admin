@@ -22,18 +22,24 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-  async onSubmit() {
+  onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       try {
-        const response = await this.userService.login(email, password);
-        if (response.email) {
-          localStorage.setItem('email', response.email);
-          localStorage.setItem('token', response.token);
-          this.router.navigateByUrl('/restaurants');
-        }
-        console.log(response);
+        this.userService.login(email, password).subscribe(response => {
+
+          console.log(response);
+   
+          if (response.email) {
+            localStorage.setItem('email', response.email);
+            localStorage.setItem('token', response.token);
+            this.router.navigateByUrl('/restaurants');
+          }
+        })     
+        // console.log(response);
       } catch (error: any) {
+        console.log(error);
+        
         this.toast.error('Wrong Credentials!' , { duration: 2000 });
       }
     } else {

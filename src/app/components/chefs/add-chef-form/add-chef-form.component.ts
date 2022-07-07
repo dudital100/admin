@@ -32,7 +32,7 @@ export class AddChefFormComponent implements OnInit {
         ...this.addChefForm.value
       }
       this.chefService.addChef(newChef).subscribe((res: any) => {     
-        console.log(res);
+        // console.log(res);
         if (res.name) {
           this.toast.success(`${res.name} Added!`);
         } else {

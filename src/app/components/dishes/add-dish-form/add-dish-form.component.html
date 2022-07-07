@@ -28,6 +28,20 @@
               required
             />
           </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Meal Type</mat-label>
+            <mat-select
+              [(value)]="selectedTypeValue"
+              name="mealType"
+              formControlName="mealType"
+            >
+              <mat-option value="breakfast">Breakfast</mat-option>
+              <mat-option value="lunch">Lunch</mat-option>
+              <mat-option value="dinner">Dinner</mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <mat-form-field class="full-width dish-info">
             <mat-label>Description</mat-label>
             <input
@@ -43,9 +57,13 @@
 
           <mat-form-field class="full-width">
             <mat-label>Restaurant</mat-label>
-            <mat-select [(value)]="selectedValue" name="restaurantRef" formControlName="restaurantRef" >
+            <mat-select
+              [(value)]="selectedRestValue"
+              name="restaurantRef"
+              formControlName="restaurantRef"
+            >
               <mat-option *ngFor="let rest of restaurants" [value]="rest._id">
-                {{rest.name}}
+                {{ rest.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -58,10 +76,14 @@
             required
             value="true"
           >
-            <mat-label>Spicy</mat-label>
+            <mat-label class="radio-headers">Spicy *</mat-label>
             <br />
-            <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
-            <mat-radio-button value="{{ false }}">No</mat-radio-button>
+            <mat-radio-button class="radio-btn" value="{{ true }}"
+              >Yes</mat-radio-button
+            >
+            <mat-radio-button [checked]="true" value="{{ false }}"
+              >No</mat-radio-button
+            >
           </mat-radio-group>
           <br />
           <mat-radio-group
@@ -72,10 +94,14 @@
             matInput
             required
           >
-            <mat-label>Vegiterian</mat-label>
+            <mat-label class="radio-headers">Vegiterian *</mat-label>
             <br />
-            <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
-            <mat-radio-button value="{{ false }}">No</mat-radio-button>
+            <mat-radio-button class="radio-btn" value="{{ true }}"
+              >Yes</mat-radio-button
+            >
+            <mat-radio-button [checked]="true" value="{{ false }}"
+              >No</mat-radio-button
+            >
           </mat-radio-group>
           <br />
           <mat-radio-group
@@ -86,10 +112,14 @@
             matInput
             required
           >
-            <mat-label>Vegan</mat-label>
+            <mat-label class="radio-headers">Vegan *</mat-label>
             <br />
-            <mat-radio-button class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
-            <mat-radio-button value="{{ false }}">No</mat-radio-button>
+            <mat-radio-button class="radio-btn" value="{{ true }}"
+              >Yes</mat-radio-button
+            >
+            <mat-radio-button [checked]="true" value="{{ false }}"
+              >No</mat-radio-button
+            >
           </mat-radio-group>
           <br />
           <mat-form-field class="full-width dish-info">
@@ -105,11 +135,11 @@
             />
           </mat-form-field>
           <mat-card-actions>
-            <button type="submit" mat-raised-button>Add Dish</button>
+            <button type="submit" mat-raised-button>Submit</button>
+            <button type="button" mat-button (click)="hideForm()">
+              Cancel
+            </button>
           </mat-card-actions>
-          <button type="button" mat-button (click)="hideForm()">
-            Close Form
-          </button>
         </form>
       </mat-card-content>
     </div>

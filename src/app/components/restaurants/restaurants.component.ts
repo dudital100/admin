@@ -91,16 +91,23 @@ export class RestaurantsComponent implements OnInit, OnChanges {
       // in order to show the admin if the restaurant has been deleted, and how many dishes were connected to that restaurant.
       // console.log(rest.dishesDelete.deletedCount);
       // console.log(rest.restDelete.deletedCount);
-      console.log(res);
-      
+      // console.log(res);
+
       if (res.message) {
         this.toast.error(res.message);
-      }
-      else {
+      } else {
         if (res.dishesDelete.modifiedCount)
-          this.toast.success(`${res.restDelete.name} and it's ${res.dishesDelete.modifiedCount} ${res.dishesDelete.modifiedCount === 1 ? "dish" : "dishes" } have been deleted successfully`);
+          this.toast.success(
+            `${res.restDelete.name} and it's ${
+              res.dishesDelete.modifiedCount
+            } ${
+              res.dishesDelete.modifiedCount === 1 ? 'dish' : 'dishes'
+            } have been deleted successfully`
+          );
         else {
-          this.toast.success(`${res.restDelete.name} has been deleted successfully`);
+          this.toast.success(
+            `${res.restDelete.name} has been deleted successfully`
+          );
         }
       }
 

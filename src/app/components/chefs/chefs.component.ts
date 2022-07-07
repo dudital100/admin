@@ -52,14 +52,14 @@ export class ChefsComponent implements OnChanges {
   fetchAllChefs() {
     this.chefService.getChefs().subscribe((chefs) => {
       this.dataSource = chefs;
-      console.log(chefs);
+      // console.log(chefs);
     });
   }
 
   deleteChefById(id: string) {
     this.chefService.deleteById(id).subscribe((res: any) => {
       // reponse have coulse have message field (if so, it means delete was now successful);
-      console.log(res);
+      // console.log(res);
       
       if (res.message) {
         this.toast.error(res.message);

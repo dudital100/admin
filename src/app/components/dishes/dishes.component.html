@@ -13,6 +13,10 @@
     <th class="w-100" mat-header-cell *matHeaderCellDef>Name</th>
     <td class="w-100" mat-cell *matCellDef="let element">{{ element.name }}</td>
   </ng-container>
+  <ng-container matColumnDef="mealType">
+    <th class="w-100" mat-header-cell *matHeaderCellDef>Meal Type</th>
+    <td class="w-100" mat-cell *matCellDef="let element">{{ element.mealType }}</td>
+  </ng-container>
   <ng-container matColumnDef="description">
     <th class="w-300" mat-header-cell *matHeaderCellDef>Description</th>
     <td class="w-300" mat-cell *matCellDef="let element">

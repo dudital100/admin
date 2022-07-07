@@ -30,7 +30,7 @@
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Chef</mat-label>
-              <mat-select [(value)]="selectedValue" name="chef" formControlName="chef" >
+              <mat-select [(value)]="selectedChefValue" name="chef" formControlName="chef" >
                 <mat-option *ngFor="let chef of chefs" [value]="chef._id">
                   {{chef.name}}
                 </mat-option>
@@ -39,25 +39,12 @@
 
             <mat-form-field class="full-width">
               <mat-label>Signature Dish</mat-label>
-              <mat-select [(value)]="selectedValue" name="signatureDish" formControlName="signatureDish" >
+              <mat-select [(value)]="selectedDishValue" name="signatureDish" formControlName="signatureDish" >
                 <mat-option *ngFor="let dish of restaurantDishes" [value]="dish._id">
                   {{dish.name}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-
-            <!-- <mat-form-field class="full-width rest-info">
-                <mat-label>Signature Dish</mat-label>
-                <input
-                  class="full-width rest-info"
-                  type="text"
-                  matInput
-                  placeholder="signatureDish"
-                  name="signatureDish"
-                  formControlName="signatureDish"
-                  required
-                />
-              </mat-form-field> -->
             <mat-radio-group
               formControlName="isNewRest"
               name="isNewRest"
@@ -67,7 +54,7 @@
               required
               value="true"
             >
-              <mat-label>New</mat-label>
+              <mat-label class="radio-headers">New *</mat-label>
               <br />
               <mat-radio-button [checked]="restToUpdate.isNewRest" class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
               <mat-radio-button [checked]="!restToUpdate.isNewRest" value="{{ false }}">No</mat-radio-button>
@@ -81,7 +68,7 @@
               matInput
               required
             >
-              <mat-label>Open</mat-label>
+              <mat-label class="radio-headers">Open *</mat-label>
               <br />
               <mat-radio-button [checked]="restToUpdate.isOpen" class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
               <mat-radio-button [checked]="!restToUpdate.isOpen" value="{{ false }}">No</mat-radio-button>
@@ -95,17 +82,18 @@
               matInput
               required
             >
-              <mat-label>Popular</mat-label>
+              <mat-label class="radio-headers">Popular *</mat-label>
               <br />
               <mat-radio-button [checked]="restToUpdate.isPopular" class="radio-btn" value="{{ true }}">Yes</mat-radio-button>
               <mat-radio-button [checked]="!restToUpdate.isPopular" value="{{ false }}">No</mat-radio-button>
             </mat-radio-group>
+            <br />
             <mat-card-actions>
-              <button type="submit" mat-raised-button>Update Restaurant</button>
+              <button type="submit" mat-raised-button>Submit</button>
+              <button type="button" mat-button (click)="hideForm()">
+                Cancel
+              </button>
             </mat-card-actions>
-            <button type="button" mat-button (click)="hideForm()">
-              Close Form
-            </button>
           </form>
         </mat-card-content>
       </div>

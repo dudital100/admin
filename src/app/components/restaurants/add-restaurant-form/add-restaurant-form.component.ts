@@ -17,10 +17,10 @@ export class AddRestaurantFormComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     img: new FormControl('', [Validators.required]),
     chef: new FormControl('', [Validators.required]),
-    isNewRest: new FormControl('', [Validators.required]),
-    isOpen: new FormControl('', [Validators.required]),
-    isPopular: new FormControl('', [Validators.required]),
-    signatureDish: new FormControl('', [Validators.required])
+    isNewRest: new FormControl(false, [Validators.required]),
+    isOpen: new FormControl(false, [Validators.required]),
+    isPopular: new FormControl(false, [Validators.required]),
+    // signatureDish: new FormControl('', [Validators.required])
   });
 
   @Input() showForm: boolean = false;
@@ -38,12 +38,15 @@ export class AddRestaurantFormComponent implements OnInit {
 
   onSubmit() {
     if(this.addRestForm.valid) {
-      const newRest: RestaurantInterface = this.addRestForm.value;
+      const newRest: RestaurantInterface = {
+        ...this.addRestForm.value,
+        signatureDish: null
+      };
       this.restService.addRestaurant(newRest).subscribe( (res: any) => {
         if (res.name) {
           this.toast.success(`${res.name} Added!`);
         }
-        console.log(res);        
+        // console.log(res);        
         this.hideForm();
         this.fetchData.emit();
       });

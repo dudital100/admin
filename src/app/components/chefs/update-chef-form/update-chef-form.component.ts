@@ -31,6 +31,7 @@ export class UpdateChefFormComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(this.chefToUpdate)
+    
     this.updateChefForm.setValue({
       name: this.chefToUpdate.name,
       imgUrl: this.chefToUpdate.imgUrl,
@@ -43,7 +44,7 @@ export class UpdateChefFormComponent implements OnInit {
       const updatedChefId = this.chefToUpdate._id;
       const updatedChefDetails = this.updateChefForm.value;
       await this.chefService.updateChef(updatedChefDetails, updatedChefId).subscribe((res: any) => {
-        console.log(res);
+        // console.log(res);
         this.toast.success(`${res.name} Updated!`)
 
         this.hideForm();

@@ -9,5 +9,7 @@ export interface DishInterface {
     isSpicy: boolean;
     isVegan: boolean;
     isVegi: boolean;
+    isValid: boolean;
+    mealType: string;
     restaurantRef: any;
 }

@@ -1,8 +1,4 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
+<table *ngIf="dataSource.length" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="imgUrl">
     <th class="w-100" mat-header-cell *matHeaderCellDef>Image</th>
     <td class="w-100" mat-cell *matCellDef="let element">
@@ -57,5 +53,3 @@
 >
   Add Chef
 </button>
-
-
