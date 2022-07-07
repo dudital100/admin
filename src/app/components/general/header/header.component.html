@@ -1,10 +1,10 @@
 <mat-toolbar class="header">
   <mat-toolbar-row>
     <!--  <span>HOME</span> -->
-     <span><a mat-button routerLink="">Home</a></span>
+     <!-- <span><a mat-button routerLink="">Home</a></span> -->
      <span class="spacer"></span>
-     <a *ngIf="!isLogged()" mat-button routerLink="/login">Login</a>
-     <a *ngIf="!isLogged()" mat-button routerLink="/register">Register</a>
+     <!-- <a *ngIf="!isLogged()" mat-button routerLink="/login">Login</a> -->
+     <!-- <a *ngIf="!isLogged()" mat-button routerLink="/register">Register</a> -->
      <a *ngIf="isLogged()" mat-button routerLink="/login" (click)="logout()">Logout</a>
   </mat-toolbar-row>
 </mat-toolbar>

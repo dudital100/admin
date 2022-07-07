@@ -6,8 +6,9 @@
   }
   .my-form {
     min-width: 150px;
-    width: 100%;
-    max-width: 500px;
+    // width: 100%;
+    // max-width: 500px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,3 +25,19 @@
   .radio-btn {
     margin-right: 5px;
   }
+  .radio-headers {
+    color: rgba(0, 0, 0, 0.5);
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 13px;
+  }
+  // ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  //   background-color: rgb(243, 202, 127) !important;
+  // }
+  
+  // ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  //   background-color: rgb(243, 202, 127) !important;   /*inner circle color change*/
+  // }
+  
+  // ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  //  border-color:rgb(243, 202, 127) !important; /*outer ring color change*/
+  // }

@@ -1,10 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChefInterface } from 'src/app/interfaces/chef-interface';
 import { DishInterface } from 'src/app/interfaces/dish-interface';
 import { DishService } from 'src/app/services/dish.service';
 import { RestaurantInterface } from '../../../interfaces/restaurant-interface';
 import { RestaurantsService } from '../../../services/restaurants.service';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-update-restaurant-form',
@@ -12,7 +21,9 @@ import { RestaurantsService } from '../../../services/restaurants.service';
   styleUrls: ['./update-restaurant-form.component.scss'],
 })
 export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
-  selectedValue: string = '';
+  selectedChefValue: string = '';
+  selectedDishValue: string = '';
+
   updateRestForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     img: new FormControl('', [Validators.required]),
@@ -22,7 +33,7 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
     isPopular: new FormControl('', [Validators.required]),
     signatureDish: new FormControl('', [Validators.required]),
   });
-  restaurantDishes: DishInterface[] = []
+  restaurantDishes: DishInterface[] = [];
 
   @Input() showUpdateForm: boolean = false;
   @Input() restToUpdate: RestaurantInterface = {
@@ -39,8 +50,11 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
   @Output() hideFormEvent = new EventEmitter<boolean>();
   @Output() fetchData = new EventEmitter();
 
-  constructor(private restService: RestaurantsService, private dishService: DishService) {
-  }
+  constructor(
+    private restService: RestaurantsService,
+    private dishService: DishService,
+    private toast: HotToastService
+  ) {}
   ngOnChanges(changes: SimpleChanges): void {
     // this.fetchCurrentResDishes();
   }
@@ -48,15 +62,21 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
   fetchCurrentResDishes() {
     const filter = {
       filter: {
-        restaurantRef: this.restToUpdate._id
-      }
-    }    
+        restaurantRef: this.restToUpdate._id,
+      },
+    };
     this.dishService.getfilteredDishes(filter).subscribe((dishes) => {
-      this.restaurantDishes = dishes;      
+      this.restaurantDishes = dishes;
+      if (!dishes.length) {
+        this.toast.warning("This restaurant does not have dishes yet, Please add dishes first")
+      }
     });
+
   }
 
   ngOnInit(): void {
+    // console.log(this.restToUpdate.signatureDish.isValid);
+    
     this.updateRestForm.setValue({
       name: this.restToUpdate.name,
       img: this.restToUpdate.img,
@@ -64,10 +84,13 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
       isNewRest: this.restToUpdate.isNewRest,
       isOpen: this.restToUpdate.isOpen,
       isPopular: this.restToUpdate.isPopular,
-      signatureDish: this.restToUpdate.signatureDish._id,
+      // signatureDish: this.restToUpdate.signatureDish.isvalid ? this.restToUpdate.signatureDish._id : "",
+      signatureDish: this.restToUpdate.signatureDish ? this.restToUpdate.signatureDish._id : null,
+
     });
     this.fetchCurrentResDishes();
-
+    // console.log("init: " + this.restToUpdate.signatureDish._id);
+    
   }
   hideForm() {
     this.hideFormEvent.emit();
@@ -77,11 +100,21 @@ export class UpdateRestaurantFormComponent implements OnInit, OnChanges {
     if (this.updateRestForm.valid) {
       const updatedDishDetails: RestaurantInterface = this.updateRestForm.value;
       const updatedDishId = this.restToUpdate._id;
-      this.restService.updateRestaurant(updatedDishDetails, updatedDishId).subscribe( res => {
-        console.log(res);
-        this.hideForm();
-        this.fetchData.emit();
-      });
+      console.log(updatedDishDetails);
+      console.log(updatedDishId);
+      
+      
+      this.restService
+        .updateRestaurant(updatedDishDetails, updatedDishId)
+        .subscribe((res: any) => {
+          if (res.name) {
+            this.toast.success(`${res.name} Updated!`);
+          }
+          this.hideForm();
+          this.fetchData.emit();
+        });
+    } else {
+      this.toast.error("Invalid form!");
     }
   }
 }

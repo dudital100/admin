@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ChefService } from 'src/app/services/chef.service';
 import { ChefInterface } from 'src/app/interfaces/chef-interface';
-import { DeleteResponse } from '../../interfaces/delete-response';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-chefs',
@@ -14,14 +14,17 @@ export class ChefsComponent implements OnChanges {
   chefToUpdate: ChefInterface = {
     _id: '',
     name: '',
-    imgUrl:'',
-    info: ''
-  }
+    imgUrl: '',
+    info: '',
+  };
 
   displayedColumns: string[] = ['imgUrl', 'name', 'info', 'actions'];
   dataSource: ChefInterface[] = [];
 
-  constructor(private chefService: ChefService) {
+  constructor(
+    private chefService: ChefService,
+    private toast: HotToastService
+  ) {
     this.fetchAllChefs();
   }
 
@@ -34,7 +37,7 @@ export class ChefsComponent implements OnChanges {
     this.showAddModal = true;
   }
 
-  closeAddForm(): void{
+  closeAddForm(): void {
     this.showAddModal = false;
   }
   openUpdateForm(): void {
@@ -42,27 +45,33 @@ export class ChefsComponent implements OnChanges {
     this.showUpdateModal = true;
   }
 
-  closeUpdateForm(): void{
+  closeUpdateForm(): void {
     this.showUpdateModal = false;
   }
 
   fetchAllChefs() {
     this.chefService.getChefs().subscribe((chefs) => {
       this.dataSource = chefs;
-      console.log(chefs);
+      // console.log(chefs);
     });
   }
 
   deleteChefById(id: string) {
-    console.log(id);
-    this.chefService.deleteById(id).subscribe((response: DeleteResponse) => {
+    this.chefService.deleteById(id).subscribe((res: any) => {
       // reponse have coulse have message field (if so, it means delete was now successful);
-      console.log(response);
+      // console.log(res);
+      
+      if (res.message) {
+        this.toast.error(res.message);
+      } else {
+        this.toast.success(`${res.name} Deleted!!`);
+      }
+
       this.fetchAllChefs(); // fetch the new chefs again
     });
   }
 
-    updateChef(chosenChef: ChefInterface) {
+  updateChef(chosenChef: ChefInterface) {
     this.chefToUpdate = chosenChef;
     // console.log("chefToUpdate: " ,this.chefToUpdate);
     this.showAddModal = false;
